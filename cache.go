@@ -92,6 +92,22 @@ func (c *cache) get(k string) (interface{}, bool) {
 	return item.Object, true
 }
 
+// GetAll returns all keys in the cache or empty map.
+func (c *cache) GetAll() map[string]interface{} {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	var items map[string]interface{}
+
+	if c.ItemCount() > 0 {
+		items = make(map[string]interface{}, len(c.items))
+		for k, v := range c.items {
+			items[k] = v.Object
+		}
+	}
+
+	return items
+}
+
 // Delete an item from the cache. Does nothing if the key is not in the cache.
 func (c *cache) Delete(k string) {
 	c.mu.Lock()

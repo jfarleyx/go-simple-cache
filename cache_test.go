@@ -65,6 +65,11 @@ func TestCache(t *testing.T) {
 	} else if c2 := x.(float64); c2+1.2 != 4.7 {
 		t.Error("c2 (which should be 3.5) plus 1.2 does not equal 4.7; value:", c2)
 	}
+
+	z := tc.GetAll()
+	if len(z) != 3 {
+		t.Errorf("expected to receive a, b, c, received: %+v\n", z)
+	}
 }
 
 func TestStorePointerToStruct(t *testing.T) {
